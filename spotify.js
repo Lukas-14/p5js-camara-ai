@@ -19,13 +19,20 @@ let video;
 let flippedVideo;
 // To store the classification
 let label = "";
+let labels = [];
 let confidence = 0;
 let questionImage;
+
+// Timeout
+let lastExecution = 0;
+let timeout;
 
 // Load the model first
 function preload() {
   classifier = ml5.imageClassifier(imageModelURL + 'model.json');
   questionImage = loadImage('assets/q.png');
+  label = ['skip', 'back', 'standby'];
+  timeout = millis();
 }
 
 function setup() {
@@ -45,23 +52,21 @@ function draw() {
   // Draw the video
   image(flippedVideo, 0, 0);
 
+  timeout = millis()
 
-  if(confidence > 0.95) {
-    if (label !== 'standby') {
-      if(label === 'skip') {
-        fill(255);
-        textSize(150);
-        textAlign(CENTER);
-        text('✋', width / 2 + 200, height / 2)
-      } else if(label === 'back') {
-        fill(255);
-        textSize(150);
-        textAlign(CENTER);
-        text('👍', width / 2 - 200, height / 2)
+  if(timeout > lastExecution) {
+    if(confidence > 0.95) {
+      if (label !== 'standby') {
+        if(label === 'skib') {
+          lastExecution = millis() + 5000
+          console.log(2);
+        } else if(label === 'back') {
+          lastExecution = millis() + 5000
+          console.log(3)
+        }
       }
     }
   }
-    
 
   // Draw the label
   fill(255);
