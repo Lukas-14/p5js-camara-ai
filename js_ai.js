@@ -12,20 +12,22 @@ This example uses p5 preload function to create the classifier
 // Classifier Variable
 let classifier;
 // Model URL
-let imageModelURL = 'https://teachablemachine.withgoogle.com/models/OUxxe8bbK/';
+let imageModelURL = 'https://teachablemachine.withgoogle.com/models/aRtYvQP6Z/';
 
 // Video
 let video;
 let flippedVideo;
 // To store the classification
 let label = "";
+let labels = [];
 let confidence = 0;
 let questionImage;
 
 // Load the model first
 function preload() {
   classifier = ml5.imageClassifier(imageModelURL + 'model.json');
-  questionImage = loadImage('pics/q.png');
+  questionImage = loadImage('assets/q.png');
+  label = ['skip', 'back', 'standby'];
 }
 
 function setup() {
@@ -44,9 +46,15 @@ function draw() {
   // background("green");
   // Draw the video
   image(flippedVideo, 0, 0);
-  
-  if (label == "question" && confidence > 0.90){
-    image(questionImage, 50, 50, 150,150);
+
+  if(confidence > 0.95) {
+    if (label !== 'standby') {
+      if(label === 'skip') {
+        text('skip', width / 2, height / 2);
+      } else if(label === 'back') {
+        text('back', width / 2, height / 2);
+      }
+    }
   }
 
   // Draw the label
