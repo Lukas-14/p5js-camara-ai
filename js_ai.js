@@ -45,7 +45,6 @@ function draw() {
   // Draw the video
   image(flippedVideo, 0, 0);
 
-
   if(confidence > 0.95) {
     if (label !== 'standby') {
       if(label === 'skip') {
@@ -58,6 +57,11 @@ function draw() {
         textSize(150);
         textAlign(CENTER);
         text('👍', width / 2 - 200, height / 2)
+      } else if(label === 'simon') {
+        fill(255);
+        textSize(150);
+        textAlign(CENTER);
+        text('🌈', width / 2 + 15, height / 2 - 120)
       }
     }
   }
